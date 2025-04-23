@@ -15,14 +15,18 @@
 
 int whiteled = 9;         // the PWM pin the LED is attached to
 int greenled = 10;         // the PWM pin the LED is attached to
+int yellowled = 11;         // the PWM pin the LED is attached to
+int redled = 6;         // the PWM pin the LED is attached to
 int brightness = 0;  // how bright the LED is
-int fadeAmount = 5;  // how many points to fade the LED by
+int fadeAmount = 3;  // how many points to fade the LED by
 
 // the setup routine runs once when you press reset:
 void setup() {
   // declare pin 9 & 10 to be an output:
   pinMode(whiteled, OUTPUT);
   pinMode(greenled, OUTPUT);
+  pinMode(yellowled, OUTPUT);
+  pinMode(redled, OUTPUT);
 }
 
 // the loop routine runs over and over again forever:
@@ -30,12 +34,14 @@ void loop() {
   // set the brightness of pin 9 & 10:
   analogWrite(whiteled, brightness);
   analogWrite(greenled, brightness);
+  analogWrite(yellowled, brightness);
+  analogWrite(redled, brightness);
 
   // change the brightness for next time through the loop:
   brightness = brightness + fadeAmount;
 
   // reverse the direction of the fading at the ends of the fade:
-  if (brightness <= 0 || brightness >= 255) {
+  if (brightness <= 0 || brightness >= 500) {
     fadeAmount = -fadeAmount;
   }
   // wait for 30 milliseconds to see the dimming effect
