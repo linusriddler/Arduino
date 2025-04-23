@@ -13,37 +13,28 @@
   https://docs.arduino.cc/built-in-examples/basics/Fade/
 */
 
-int whiteled = 9;         // the PWM pin the LED is attached to
-int greenled = 10;         // the PWM pin the LED is attached to
-int yellowled = 11;         // the PWM pin the LED is attached to
-int redled = 6;         // the PWM pin the LED is attached to
-int brightness = 0;  // how bright the LED is
-int fadeAmount = 3;  // how many points to fade the LED by
+const int ledPins[] = {6, 9, 10, 11}; // PWM-capable pins
+const int numLeds = sizeof(ledPins) / sizeof(ledPins[0]);
+const int fadeDelay = 10; // Delay between brightness changes
+const int fadeAmount = 5; // Brightness increment/decrement
 
-// the setup routine runs once when you press reset:
 void setup() {
-  // declare pin 9 & 10 to be an output:
-  pinMode(whiteled, OUTPUT);
-  pinMode(greenled, OUTPUT);
-  pinMode(yellowled, OUTPUT);
-  pinMode(redled, OUTPUT);
+  for (int i = 0; i < numLeds; i++) {
+    pinMode(ledPins[i], OUTPUT);
+  }
 }
 
-// the loop routine runs over and over again forever:
 void loop() {
-  // set the brightness of pin 9 & 10:
-  analogWrite(whiteled, brightness);
-  analogWrite(greenled, brightness);
-  analogWrite(yellowled, brightness);
-  analogWrite(redled, brightness);
-
-  // change the brightness for next time through the loop:
-  brightness = brightness + fadeAmount;
-
-  // reverse the direction of the fading at the ends of the fade:
-  if (brightness <= 0 || brightness >= 500) {
-    fadeAmount = -fadeAmount;
+  for (int i = 0; i < numLeds; i++) {
+    // Fade in
+    for (int brightness = 0; brightness <= 255; brightness += fadeAmount) {
+      analogWrite(ledPins[i], brightness);
+      delay(fadeDelay);
+    }
+    // Fade out
+    for (int brightness = 255; brightness >= 0; brightness -= fadeAmount) {
+      analogWrite(ledPins[i], brightness);
+      delay(fadeDelay);
+    }
   }
-  // wait for 30 milliseconds to see the dimming effect
-  delay(30);
 }
