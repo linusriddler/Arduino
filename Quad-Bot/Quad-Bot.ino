@@ -1,72 +1,72 @@
 #include <Servo.h>
 
-// Definir pines del sensor ultrasónico
+// Define ultrasonic sensor pins
 const int trigPin = 5;
 const int echoPin = 6;
 
-// Definir pines de los servomotores
+// Define servo motor pins
 const int servoPin1 = 9;
 const int servoPin2 = 10;
 
-// Definir distancia de detección
-const int distanceThreshold = 20; // Distancia de detección en centímetros
+// Define detection distance
+const int distanceThreshold = 20; // Detection distance in centimeters
 
-// Crear objetos para los servomotores
+// Create objects for the servos
 Servo servo1;
 Servo servo2;
 
 void setup() {
-  // Inicializar los pines del sensor ultrasónico
+  // Initialize ultrasonic sensor pins
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
 
-  // Inicializar los servomotores
+  // Initialize the servo motors
   servo1.attach(servoPin1);
   servo2.attach(servoPin2);
 
-  // Colocar los servos en su posición inicial
-  servo1.write(90); // Posición inicial de servo1 (90 grados)
-  servo2.write(90); // Posición inicial de servo2 (90 grados)
+  // Set the servos to their initial position
+  servo1.write(90); // Initial position of servo1 (90 degrees)
+  servo2.write(90); // Initial position of servo2 (90 degrees)
 }
 
 void loop() {
-  // Realizar la medición de distancia
+  // Measure the distance
   long distance = getUltrasonicDistance();
 
-  // Verificar si hay un obstáculo a menos de 20 cm
+  // Check if there's an obstacle closer than 20 cm
   if (distance < distanceThreshold) {
-    // Girar servo1 a la izquierda (ejemplo: 45 grados)
+    // Turn servo1 to the left (example: 45 degrees)
     servo1.write(45);
-    delay(1000); // Puedes ajustar el tiempo de giro hacia la izquierda
+    delay(1000); // You can adjust the time for turning left
 
-    // Detener servo1
+    // Stop servo1
     servo1.write(90);
 
-    // Girar servo2 a la derecha (ejemplo: 135 grados)
+    // Turn servo2 to the right (example: 135 degrees)
     servo2.write(135);
-    delay(1000); // Puedes ajustar el tiempo de giro hacia la derecha
+    delay(1000); // You can adjust the time for turning right
 
-    // Detener servo2
+    // Stop servo2
     servo2.write(90);
   } else {
-    // Ambos servos avanzan hacia adelante (ejemplo: 0 grados)
+    // Both servos move forward (example: 0 degrees)
     servo1.write(0);
     servo2.write(0);
   }
 }
 
 long getUltrasonicDistance() {
-  // Generar un pulso de 10 microsegundos en el pin Trig
+  // Generate a 10-microsecond pulse on the Trig pin
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
   digitalWrite(trigPin, HIGH);
   delayMicroseconds(10);
   digitalWrite(trigPin, LOW);
 
-  // Medir la duración del pulso en el pin Echo
+  // Measure the duration of the pulse on the Echo pin
   long duration = pulseIn(echoPin, HIGH);
 
-  // Calcular la distancia en centímetros
+  // Calculate the distance in centimeters
   long distance = duration * 0.034 / 2;
 
   return distance;
