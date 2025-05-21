@@ -36,18 +36,18 @@ void loop() {
   // Check if there's an obstacle closer than 20 cm
   if (distance < distanceThreshold) {
     // Turn servo1 to the left (example: 45 degrees)
-    servo1.write(180);
-    delay(800); // You can adjust the time for turning left
+    servo1.write(90);
+    delay(500); // You can adjust the time for turning left
 
     // Stop servo1
-    servo1.write(180);
+    servo1.write(90);
 
     // Turn servo2 to the right (example: 135 degrees)
-    servo2.write(180);
-    delay(800); // You can adjust the time for turning right
+    servo2.write(90);
+    delay(500); // You can adjust the time for turning right
 
     // Stop servo2
-    servo2.write(180);
+    servo2.write(90);
   } else {
     // Both servos move forward (example: 0 degrees)
     servo1.write(0);
